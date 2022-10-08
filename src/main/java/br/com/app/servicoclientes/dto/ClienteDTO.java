@@ -7,6 +7,15 @@ public class ClienteDTO {
     private String nome;
     private Integer idade;
 
+    @Override
+    public String toString() {
+        return "ClienteDTO{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", idade=" + idade +
+                '}';
+    }
+
     public ClienteDTO() {
     }
 
