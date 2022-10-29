@@ -17,6 +17,8 @@ public class ClienteController {
     private static final Logger logger = LoggerFactory.getLogger(ClienteController.class);
 
     private final ClienteService clienteService;
+
+    
     private final ClienteMapper clienteMapper;
 
     public ClienteController(ClienteService clienteService, ClienteMapper clienteMapper) {
@@ -41,6 +43,35 @@ public class ClienteController {
             return ResponseEntity.ok().body(clienteMapper.toDTO(clienteService.buscarPorId(id)));
         } catch (ClienteNaoExisteException exception) {
             logger.info("Cliente não encontrado com id: " + id);
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> buscar(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        try {
+            logger.info("Buscando todos os clientes ");
+
+
+            var listaCliente = clienteService.buscarComPaginacao(page, size);
+
+            return ResponseEntity.ok().body(clienteMapper.toDTO(listaCliente));
+        } catch (ClienteNaoExisteException exception) {
+            logger.info("Cliente não encontrado com id: ");
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/paginacao")
+    public ResponseEntity<?> buscarComPaginacao(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        try {
+            logger.info("Buscando todos os clientes ");
+
+            var listaCliente = clienteService.buscarComPaginacaoNova(page, size);
+
+            return ResponseEntity.ok().body(clienteMapper.toDTO(listaCliente));
+        } catch (ClienteNaoExisteException exception) {
+            logger.info("Cliente não encontrado com id: ");
             return ResponseEntity.notFound().build();
         }
     }

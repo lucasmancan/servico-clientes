@@ -1,0 +1,57 @@
+spring:
+  datasource:
+    hikari:
+      maxLifetime: '3600000'
+      connectionTimeout: '14000'
+      maximum-pool-size: '60'
+      minimum-idle: '5'
+      poolName: spring-boot-hikari-mysql-cp
+      idleTimeout: '600000'
+      data-source-properties:
+        useServerPrepStmts: 'true'
+        cacheResultSetMetadata: 'true'
+        cacheServerConfiguration: 'true'
+        cachePrepStmts: 'true'
+        rewriteBatchedStatements: 'true'
+        elideSetAutoCommits: 'true'
+        useLocalSessionState: 'true'
+        prepStmtCacheSize: '250'
+        maintainTimeStats: 'false'
+        prepStmtCacheSqlLimit: '2048'
+    password: ${MYSQL_USER:root}
+    username: ${MYSQL_PASSWORD:root}
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/sandbox?createDatabaseIfNotExist=true
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: update
+        format_sql: true
+    database: mysql
+    generate-ddl: true
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics
+  endpoint:
+    metrics:
+      enabled: 'true'
+jdbc: properties to connect to database
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
+#        SQL: DEBUG
+#    com:
+#      zaxxer:
+#        hikari:
+#          HikariConfig: DEBUG
+#
+server:
+  port: 9090
